@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Listing Snapshot for Etsy — 把当前页商品一键导成表格</title>
+<meta name="description" content="Etsy 搜索页或店铺页，把已经看到的商品一键导出 CSV / 粘贴成表格，并对比两次快照的价格变动。全部在本地完成，不上传、不登录、不碰 Cookie。">
+<style>
+  :root { --fg:#1c1c1e; --mut:#6b6b70; --line:#e9e9ee; --accent:#f1641e; --bg:#fff; --soft:#faf9f7; }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; background:var(--bg); color:var(--fg);
+    font:16px/1.7 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap { max-width:40rem; margin:0 auto; padding:3.25rem 1.25rem 4rem; }
+  header { margin-bottom:2.25rem; }
+  .badge { display:inline-block; font-size:.78rem; letter-spacing:.02em; color:var(--accent);
+    border:1px solid #f8c9ae; background:#fff5ef; border-radius:999px; padding:.2rem .7rem; margin-bottom:1rem; }
+  h1 { font-size:1.85rem; line-height:1.25; letter-spacing:-.02em; margin:0 0 .6rem; }
+  .sub { color:var(--mut); font-size:1.05rem; margin:0; }
+  h2 { font-size:1.15rem; margin:2.5rem 0 .75rem; letter-spacing:-.01em; }
+  p { margin:0 0 1rem; }
+  ol, ul { margin:0 0 1rem; padding-left:1.3rem; }
+  li { margin:.45rem 0; }
+  .pain { background:var(--soft); border:1px solid var(--line); border-radius:.75rem; padding:1.15rem 1.25rem; }
+  .steps { list-style:none; padding:0; counter-reset:s; }
+  .steps li { counter-increment:s; position:relative; padding:.85rem 0 .85rem 2.9rem; border-bottom:1px solid var(--line); }
+  .steps li:last-child { border-bottom:0; }
+  .steps li::before {
+    content:counter(s); position:absolute; left:0; top:.8rem;
+    width:1.9rem; height:1.9rem; border-radius:50%; background:var(--accent); color:#fff;
+    font-weight:600; font-size:.9rem; display:flex; align-items:center; justify-content:center;
+  }
+  .steps strong { display:block; font-size:1rem; margin-bottom:.15rem; }
+  .steps span { color:var(--mut); font-size:.92rem; }
+  .pro { border:1px solid var(--line); border-radius:.75rem; padding:0 1.25rem; margin:0 0 1rem; }
+  .pro li { border-bottom:1px dashed var(--line); padding:.6rem 0; }
+  .pro li:last-child { border-bottom:0; }
+  .note { color:var(--mut); font-size:.9rem; }
+  .cta { background:var(--soft); border:1px solid var(--line); border-radius:.75rem; padding:1.25rem; margin-top:2rem; }
+  .mail { font-weight:600; font-size:1.02rem; word-break:break-all; }
+  button {
+    font:inherit; font-size:.92rem; padding:.5rem .95rem; border-radius:.5rem; cursor:pointer;
+    border:1px solid var(--accent); background:var(--accent); color:#fff; margin-top:.75rem;
+  }
+  button:hover { filter:brightness(.94); }
+  a.btn { display:inline-block; margin-top:.75rem; margin-right:.5rem; text-decoration:none;
+    font-size:.92rem; padding:.5rem .95rem; border-radius:.5rem; border:1px solid var(--accent); color:var(--accent); background:#fff; }
+  #t { color:var(--mut); font-size:.88rem; margin-left:.6rem; }
+  footer { margin-top:3rem; padding-top:1.25rem; border-top:1px solid var(--line); color:var(--mut); font-size:.85rem; }
+  footer a { color:var(--mut); }
+  @media (max-width:520px){ .wrap { padding-top:2rem; } h1 { font-size:1.55rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="badge">Chrome 扩展 · 免费 · 无需注册</span>
+  <h1>Listing Snapshot for Etsy</h1>
+  <p class="sub">在 Etsy 搜索页或店铺页，把当前看到的商品一键导成表格。全部在你浏览器里完成，不上传任何东西。</p>
+</header>
+
+<h2>它解决的那件小事</h2>
+<div class="pain">
+  <p>想研究竞品，通常只能这样：开着一个 Etsy 页面，一个商品一个商品地往表格里抄标题、抄价格、抄评论数。抄三十条，半小时没了，而且下周想再看一遍价格变了没，昨天的表格已经对不上今天的页面。</p>
+  <p style="margin-bottom:0">Listing Snapshot 只做一件事——把<strong>你屏幕上已经加载出来的这些商品</strong>变成表格，并且把每一次导出留一份本地快照，让你随时能问"和上周比，谁涨价了、谁新上了、谁下架了"。</p>
+</div>
+
+<h2>怎么用</h2>
+<ol class="steps">
+  <li><strong>装好插件</strong><span>Chrome 应用商店安装，没有账号体系，装完就是全部功能。</span></li>
+  <li><strong>打开任意 Etsy 搜索结果页或店铺商品页</strong><span>普通浏览，滚到哪算哪，不需要专门操作。</span></li>
+  <li><strong>点图标 → 导出</strong><span>下载 CSV（Excel 直接双击打开不乱码），或复制成表格粘进 Google Sheets。默认顺手存一份快照。</span></li>
+</ol>
+
+<h2>它刻意不做的事</h2>
+<ul>
+  <li>不翻页、不替你访问任何页面、不发起任何额外请求。</li>
+  <li>不读 Cookie、不读登录态、不碰密码，只做"读"和"导出"，绝不在你的账号下做任何写操作。</li>
+  <li>没有后台常驻进程，没有统计代码，没有第三方 SDK，权限只有 <code>storage</code> 和 Etsy 单站点。</li>
+</ul>
+<p class="note">这也是为什么它能如实写"不收集、不共享"——见页尾隐私政策。</p>
+
+<h2>Pro 计划里会解锁什么</h2>
+<ul class="pro">
+  <li>超过 20 份的快照留存与更长的历史对比</li>
+  <li>价格变动提醒（新快照与旧快照的差异主动告诉你）</li>
+  <li>eBay / Amazon 等第二个平台支持</li>
+</ul>
+<p class="note">当前版本完全免费，暂不收费。Pro 的定价和上线，先听想要它的人怎么说。</p>
+
+<div class="cta">
+  <p style="margin-bottom:.4rem">想进 Pro 优先内测：给下面这个邮箱发一封邮件，标题写 <em>Pro 内测</em>，正文说一句你最想从 Etsy 表格解决的问题就行。</p>
+  <p class="mail" id="m"></p>
+  <button id="cp">复制邮箱</button>
+  <a class="btn" id="ml">直接发邮件</a>
+  <span id="t"></span>
+</div>
+
+<footer>
+  仅本机处理，不上传 · <a href="privacy-policy.html">隐私政策</a>
+</footer>
+
+</div>
+<script src="mailto-copy.js"></script>
+</body>
+</html>
